@@ -17,6 +17,19 @@ public class MovePlayerNavMesh : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     private Vector3 destination;
 
+    float PathLength(NavMeshPath path) {
+        if (path.corners.Length < 2)
+            return 0;
+        
+        float lengthSoFar = 0.0F;
+        for (int i = 1; i < path.corners.Length; i++) {
+            lengthSoFar += Vector3.Distance(path.corners[i - 1], path.corners[i]);
+        }
+        return lengthSoFar;
+    }
+
+    NavMeshPath path = nmAgent.path;
+
     void Awake()
     {
         playerActions = new PlayerActions();
@@ -53,5 +66,13 @@ public class MovePlayerNavMesh : MonoBehaviour
             destination = hit.point;
         }
         nmAgent.SetDestination(destination);
-    }        
+    }   
+
+    void OnDrawGizmos(){
+        if(path.corners!=null){
+        for(int i=1; i<=path.corners.Length; i++){
+          Gizmos.DrawLine(path.corners[i -1], path.corners[i])  ;        
+        }
+        }
+    }     
 }
