@@ -43,11 +43,6 @@ public class MovePlayerNavMesh : MonoBehaviour
         nmAgent = this.GetComponent<NavMeshAgent>();
     }
 
-    void Update()
-    {
-        
-    }
-
     private void GetDestination(InputAction.CallbackContext context)
     {
         Vector2 position = mousePosition.ReadValue<Vector2>();
@@ -59,15 +54,4 @@ public class MovePlayerNavMesh : MonoBehaviour
         }
         nmAgent.SetDestination(destination);
     }        
-
-    private void MoveToDestination()
-    {
-        Vector3 offset = destination - transform.position;
-        Vector3 move = offset.normalized * speed * Time.deltaTime;
-        if (move.magnitude > offset.magnitude)  // avoid overshoot
-        {
-            move = offset;
-        }
-        transform.Translate(move);
-    }
 }
